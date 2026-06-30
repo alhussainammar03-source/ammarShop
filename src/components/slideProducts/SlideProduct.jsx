@@ -20,21 +20,21 @@ function SlideProduct({ data, title }) {
         </div>
 
         <Swiper
-          loop={true}
+          loop={data.length > 5}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
           }}
           slidesPerView={5}
+          slidesPerGroup={1}
           navigation={true}
           modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
           {data.map((item) => {
             return (
-              <SwiperSlide>
-                {" "}
-                <Product item={item} />{" "}
+              <SwiperSlide key={item.id}>
+                <Product item={item} />
               </SwiperSlide>
             );
           })}
