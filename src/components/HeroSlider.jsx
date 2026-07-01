@@ -4,11 +4,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Autoplay , Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
-import bannerHero1 from '../img/banner_Hero1.jpg';
-import bannerHero2 from '../img/banner_Hero2.jpg';
-import bannerHero3 from '../img/banner_Hero3.jpg';
+import bannerHero1 from "../img/banner_Hero1.jpg";
+import bannerHero2 from "../img/banner_Hero2.jpg";
+import bannerHero3 from "../img/banner_Hero3.jpg";
 
 function HeroSlider() {
   return (
@@ -16,13 +16,13 @@ function HeroSlider() {
       <div className="hero">
         <div className="container">
           <Swiper
-          loop={true}
+            loop={true}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,
             }}
             pagination={true}
-            modules={[Pagination , Autoplay]}
+            modules={[Pagination, Autoplay]}
             className="mySwiper"
           >
             <SwiperSlide>
@@ -32,9 +32,9 @@ function HeroSlider() {
                   Microsoft Xbox <br /> 360 Controller{" "}
                 </h3>
                 <p>Windows Xp/10/7/8 Ps3, Tv Box</p>
-                <Link to="/" className="btn">
+                {/*  <Link to="/" className="btn">
                   Shop Now
-                </Link>
+                </Link> */}
               </div>
               <img src={bannerHero1} alt="slider hero 1" />
             </SwiperSlide>

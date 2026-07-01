@@ -15,7 +15,7 @@ function SlideProduct({ data, title }) {
           <h2>{title}</h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias,
-            xxxxxxxxxxxxxxxxxx?
+            x?
           </p>
         </div>
 
@@ -25,19 +25,23 @@ function SlideProduct({ data, title }) {
             delay: 2500,
             disableOnInteraction: false,
           }}
-          slidesPerView={5}
+          slidesPerView={3}
           slidesPerGroup={1}
+          spaceBetween={8}
           navigation={true}
           modules={[Navigation, Autoplay]}
+          breakpoints={{
+            600: { slidesPerView: 3 },
+            900: { slidesPerView: 4 },
+            1200: { slidesPerView: 5 },
+          }}
           className="mySwiper"
         >
-          {data.map((item) => {
-            return (
-              <SwiperSlide key={item.id}>
-                <Product item={item} />
-              </SwiperSlide>
-            );
-          })}
+          {data.map((item) => (
+            <SwiperSlide key={item.id}>
+              <Product item={item} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>

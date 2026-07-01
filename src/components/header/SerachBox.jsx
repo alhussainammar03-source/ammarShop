@@ -1,69 +1,72 @@
-import { li } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function SerachBox() {
-  const [serachTerm, setSerachTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const location = useLocation()
-
-  const handleSbumit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (serachTerm.trim()) {
-      navigate(`/search?query=${encodeURIComponent(serachTerm.trim())}`);
+
+    if (searchTerm.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm("");
     }
+
     setSuggestions([]);
   };
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      if (!serachTerm.trim()) {
+      if (!searchTerm.trim()) {
         setSuggestions([]);
         return;
       }
 
       try {
         const res = await fetch(
-          `https://dummyjson.com/products/search?q=${serachTerm}`
+          `https://dummyjson.com/products/search?q=${encodeURIComponent(
+            searchTerm.trim(),
+          )}`,
         );
+
         const data = await res.json();
-        setSuggestions(data.products.slice(0, 5) || []);
+        setSuggestions(data.products?.slice(0, 5) || []);
       } catch (error) {
-        console.error("Search Error :", error);
+        console.error("Search Error:", error);
         setSuggestions([]);
       }
     };
 
-    const debonuce = setTimeout(() => {
+    const debounceTimer = setTimeout(() => {
       fetchSuggestions();
     }, 300);
 
-    return () => clearTimeout(debonuce);
-  }, [serachTerm]);
-
-
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
 
   useEffect(() => {
     setSuggestions([]);
-  }, [location])
+  }, [location]);
 
   return (
     <div className="serachBox_Contaienr">
-      <form onSubmit={handleSbumit} className="search_box">
+      <form onSubmit={handleSubmit} className="search_box">
         <input
           type="text"
           name="search"
           id="search"
-          placeholder="Search For Products"
-          onChange={(e) => setSerachTerm(e.target.value)}
+          placeholder="Search for products"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           autoComplete="off"
         />
-        <button type="submit">
+
+        <button type="submit" aria-label="Search">
           <FaSearch />
         </button>
       </form>
@@ -71,9 +74,12 @@ function SerachBox() {
       {suggestions.length > 0 && (
         <ul className="suggestions">
           {suggestions.map((item) => (
-            <Link to={`/products/${item.id}`}><li key={item.id}>
-                <img src={item.images[0]} alt="" /> <span>{item.title}</span> 
-                </li></Link>
+            <li key={item.id}>
+              <Link to={`/products/${item.id}`}>
+                <img src={item.images[0]} alt={item.title} />
+                <span>{item.title}</span>
+              </Link>
+            </li>
           ))}
         </ul>
       )}
